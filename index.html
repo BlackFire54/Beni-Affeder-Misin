@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beni Affeder misin?</title>
+    <style>
+        /* ====================================
+           CSS Kodları
+           ==================================== */
+        body {
+            background-color: #0a0a1a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 0 0 10px #ff00ff;
+            font-size: 2em;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        #evetButonu, #hayirButonu {
+            background-color: #ff00ff;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+            box-shadow: 0 0 10px #ff00ff;
+            white-space: nowrap;
+        }
+
+        #evetButonu:hover, #hayirButonu:hover {
+            box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+        }
+
+        /* Özür ekranı stilleri */
+        .ozur-ekrani {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s;
+        }
+
+        /* Metni tam merkeze sabitleyen kapsayıcı */
+        .ozur-metin-kapsayici {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ozur-ekrani.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Metin stilleri - Bağımsız boşluk ayarı */
+        .ozur-metin-kapsayici p {
+            color: #fff;
+            font-size: 1.2em;
+            margin: 0;
+            padding: 10px 0;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        .ozur-metin-kapsayici #metin1 {
+            font-size: 2.5em; 
+            text-shadow: 0 0 10px #ff00ff;
+            margin-bottom: 25px; 
+        }
+        
+        .ozur-metin-kapsayici #metin2 {
+            margin-bottom: 10px; 
+        }
+
+        /* Kalp animasyonu stilleri - YENİ VE DÜZELTİLMİŞ */
+        .heart {
+            position: fixed; /* Akıştan tamamen ayırır ve titremeyi engeller */
+            color: #ff00ff;
+            font-size: 2em;
+            animation: fall linear infinite;
+            z-index: 0;
+            pointer-events: none;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lütfen Beni Affeder misin?</h1>
+        <div class="button-container">
+            <button id="evetButonu">Evet</button>
+            <button id="hayirButonu">Hayır</button>
+        </div>
+    </div>
+    
+    <div id="ozurEkrani" class="ozur-ekrani">
+        <div class="ozur-metin-kapsayici">
+            <p id="metin1">Teşekkürler, aşkım! 💕</p>
+            <p id="metin2">Kalbini kırdım, farkındayım. Ama sensiz hayatımın bir anlamı yok. 💓</p>
+            <p id="metin3">Beni affettiğin için minnettarım. Seninle birlikte daha güzel yarınlara yürüyeceğiz. 💖</p>
+        </div>
+    </div>
+
+    <script>
+        /* ====================================
+           JavaScript Kodları
+           ==================================== */
+        const evetButonu = document.getElementById('evetButonu');
+        const hayirButonu = document.getElementById('hayirButonu');
+        const container = document.querySelector('.container');
+        const ozurEkrani = document.getElementById('ozurEkrani');
+        let hayirSayisi = 0;
+
+        // "Hayır" butonuna tıklama olayını dinle
+        hayirButonu.addEventListener('click', buyutEvetButonu);
+
+        function buyutEvetButonu() {
+            // Fonksiyonun 5'ten fazla çalışmasını engelle
+            if (hayirSayisi >= 5) {
+                return;
+            }
+
+            hayirSayisi++;
+            
+            // "Evet" butonunun boyutunu transform ile ayarla
+            if (hayirSayisi === 1) {
+                evetButonu.style.transform = `scale(1.5)`;
+            } else if (hayirSayisi === 2) {
+                evetButonu.style.transform = `scale(2.2)`;
+            } else if (hayirSayisi === 3) {
+                evetButonu.style.transform = `scale(3.0)`;
+            } else if (hayirSayisi === 4) {
+                evetButonu.style.transform = `scale(4.0)`;
+            } else if (hayirSayisi === 5) {
+                // 5. tıklamada tüm ekranı kapla
+                evetButonu.style.position = 'fixed';
+                evetButonu.style.top = '0';
+                evetButonu.style.left = '0';
+                evetButonu.style.width = '100vw';
+                evetButonu.style.height = '100vh';
+                evetButonu.style.transform = 'none';
+                evetButonu.textContent = 'Başka Seçeneğin Yok!';
+                evetButonu.style.zIndex = '999';
+                hayirButonu.style.display = 'none';
+                container.style.display = 'none';
+            }
+        }
+
+        // "Evet" butonuna tıklanınca özür ekranını göster
+        evetButonu.addEventListener('click', () => {
+            container.style.display = 'none';
+            ozurEkrani.classList.add('active');
+        });
+
+        // Kalp animasyonu için fonksiyon
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.textContent = '🩷';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.fontSize = Math.random() * 1.5 + 1 + 'em';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Kalp animasyonunu sayfa yüklendiği anda başlat
+        setInterval(createHeart, 150);
+    </script>
+</body>
+</html>
